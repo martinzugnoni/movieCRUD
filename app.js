@@ -8,6 +8,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var movies = require('./routes/movies');
 var mongoose = require('mongoose');
+var path = require('path');
 
 var app = express();
 
@@ -23,6 +24,12 @@ mongoose.connect(connectionString);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
+app.use(express.static(__dirname + '/templates'));
+app.use(express.static(__dirname + '/static'));
+
+app.get('/', function(req, res) {
+    res.sendfile('index.html');
+})
 app.use('/api', movies);
 
 module.exports = app;
